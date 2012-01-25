@@ -69,6 +69,7 @@ number of requests and their responses, so we run a nested loop::
 """
 
 CRLF = '\r\n'
+VERBOSE = 0
 import os
 import Queue
 import re
@@ -1250,6 +1251,14 @@ class HTTPConnection(object):
                 
                 request_seen = True
                 req.respond()
+
+                if VERBOSE:
+                    now = time.time()
+                    year, month, day, hh, mm, ss, x, y, z = time.localtime(now)
+                    monthname = [None, 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    time_str = "%02d/%3s/%04d %02d:%02d:%02d" % (day, monthname[month], year, hh, mm, ss)
+                    print '[%s] "%s %s %s" %s' % (time_str, req.method, req.path, req.request_protocol, req.status.split(' ')[0])
+
                 if req.close_connection:
                     return
         except socket.error, e:
@@ -1923,7 +1932,7 @@ class CherryPyWSGIServer(HTTPServer):
     wsgi_version = (1, 1)
     
     def __init__(self, bind_addr, wsgi_app, numthreads=10, server_name=None,
-                 max=-1, request_queue_size=5, timeout=10, shutdown_timeout=5):
+                 max=-1, request_queue_size=5, timeout=10, shutdown_timeout=5, verbose=0):
         self.requests = ThreadPool(self, min=numthreads or 1, max=max)
         self.wsgi_app = wsgi_app
         self.gateway = wsgi_gateways[self.wsgi_version]
@@ -1933,6 +1942,8 @@ class CherryPyWSGIServer(HTTPServer):
             server_name = socket.gethostname()
         self.server_name = server_name
         self.request_queue_size = request_queue_size
+        global VERBOSE
+        VERBOSE = verbose
         
         self.timeout = timeout
         self.shutdown_timeout = shutdown_timeout
