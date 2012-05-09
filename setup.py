@@ -43,7 +43,7 @@ for dirpath, dirnames, filenames in os.walk(extensions_dir):
 setup(
     name='cherrypy-wsgiserver',
     version='0.1dev',
-    packages=['wsgiserver', ],
+    packages=packages,
     license='LICENSE',
     description='Wsgiserver configured for cherrypy and django',
     long_description=open('README.md').read(),
