@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(
-    name='Python Cherrypy Wsgiserver',
+    name='cherrypy-wsgiserver',
     version='0.1dev',
     packages=['wsgiserver', ],
     license='LICENSE',
@@ -9,5 +9,7 @@ setup(
     long_description=open('README.md').read(),
     author='Calvin Cheng',
     author_email='calvin@calvinx.com',
-    install_requires=[],
+    maintainer='Calvin Cheng',
+    maintainer_email='calvin@calvinx.com',
+    url='https://github.com/od-eon/cherrypy-wsgiserver'
 )
